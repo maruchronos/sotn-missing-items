@@ -66,7 +66,7 @@ def getData(start, size) :
 
 def printEnemies(startAddress) :
   found = 0
-  # There 16 bytes of memory storing rare items dropped
+  # There 18 bytes of memory storing rare items dropped
   for enemyBlock in range(18) :
     data = getData(startAddress + enemyBlock, 1)
     binData = toBin(data)
