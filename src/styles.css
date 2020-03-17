@@ -1,0 +1,65 @@
+body {
+  font-family: roboto;
+}
+
+output {
+  display: inline;
+}
+
+#input-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px 0;
+  margin-bottom: 40px
+}
+
+li {
+  background: #000;
+  color: #FFF;
+  margin-bottom: 5px;
+  padding: 15px;
+  width: 280px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+li span {
+  margin-left: 20px;
+}
+
+.monster {
+  display: flex;
+  flex-direction: column;
+}
+
+.monster-id {
+  color: #f7ff00
+}
+
+.items-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-container span {
+  margin-bottom: 5px;
+  color: #83c127;
+}
+
+#summary {
+  width: 100%;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  width: 100%;
+  display: grid;
+  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+button {
+  margin-top: 10px;
+}
