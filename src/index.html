@@ -11,9 +11,216 @@
 <output id="list"><div></div></output>
 
 <script>
-  const startAddress = 10360;
+  const dropAddress = 10360;
+  const itemsAddress = 8799;
+  const otherItemsAddress = 9025;
   const slotOffset = 8192;
   const androidOffset = 7877;
+  const itemsObject = [
+    { name: 'Monster Vial 1', qnt: 6 },
+    { name: 'Monster Vial 2', qnt: 7 },
+    { name: 'Monster Vial 3', qnt: 39 },
+    { name: 'Shield Rod', qnt: 1 },
+    { name: 'Leather Shield', qnt: 5 },
+    { name: 'Knight Shield', qnt: 66 },
+    { name: 'Iron Shield', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: 'Basilard', qnt: 7 },
+    { name: 'Short Sword', qnt: 12 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 8 },
+    { name: '', qnt: 14 },
+    { name: 'Red Rust Sword', qnt: 11 },
+    { name: '', qnt: 10 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 12 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 6 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 0 },
+    { name: 'Morning Set', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: 'Barley Tea', qnt: 1 },
+    { name: '', qnt: 8 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 10 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 30 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 23 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 19 },
+    { name: '', qnt: 6 },
+    { name: '', qnt: 9 },
+    { name: '', qnt: 5 },
+    { name: '', qnt: 8 },
+    { name: '', qnt: 93 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 7 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 14 },
+    { name: '', qnt: 12 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 5 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 10 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 5 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 11 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 1 },
+    { name: 'Jewel Sword', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },,
+    { name: '', qnt: 0 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 9 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: 'Heaven Sword', qnt: 0 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 0 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 14 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 3 },
+    { name: '', qnt: 8 },
+    { name: 'Runesword', qnt: 1 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 12 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 5 },
+    { name: '', qnt: 5 },
+    { name: '', qnt: 17 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 8 },
+    { name: '', qnt: 27 },
+    { name: 'Resist Thunder', qnt: 4 },
+    { name: '', qnt: 4 },
+    { name: '', qnt: 29 },
+    { name: '', qnt: 1 },
+    { name: '', qnt: 24 },
+    { name: 'Potion', qnt: 12 },
+    { name: '', qnt: 6 },
+    { name: '', qnt: 2 },
+    { name: '', qnt: 7 },
+    { name: '', qnt: 1 },
+    { name: 'Crissaegrim', qnt: 2 },
+    { name: '', qnt: 1 },
+    { name: 'Library Card', qnt: 2 },
+    { name: 'Alucard Shield', qnt: 1 },
+    { name: 'Alucard Sword', qnt: 1 }
+  ];
+
+  const otherItemsObject = [
+    { id: 58, name: 'Moonstone', img: '', value: 0},
+    { id: 59, name: 'Sunstone', img: '', value: 0},
+    { id: 60, name: 'Bloodstone', img: '', value: 0},
+    { id: 61, name: 'Staurolite', img: '', value: 0},
+    { id: 62, name: 'Ring of Pales', img: '', value: 0},
+    { id: 63, name: 'Zircon', img: '', value: 150},
+    { id: 64, name: 'Aquamarine', img: '', value: 800},
+    { id: 65, name: 'Turquoise', img: '', value: 1500},
+    { id: 66, name: 'Onix', img: '', value: 3000},
+    { id: 67, name: 'Garnet', img: '', value: 5000},
+    { id: 68, name: 'Opal', img: '', value: 8000},
+    { id: 69, name: 'Diamond', img: '', value: 100000},
+    { id: 70, name: 'Lapis Lazuli', img: '', value: 0},
+    { id: 71, name: 'Ring of Ares', img: '', value: 0},
+    { id: 72, name: 'Gold Ring', img: '', value: 0},
+    { id: 73, name: 'Silver Ring', img: '', value: 0},
+    { id: 74, name: 'Ring of Valar', img: '', value: 0},
+    { id: 75, name: 'Ring of Arcana', img: '', value: 0},
+    { id: 76, name: 'Mystic Pendant', img: '', value: 0},
+    { id: 77, name: 'Heart Broach', img: '', value: 0},
+    { id: 78, name: 'Necklace of J', img: '', value: 0},
+    { id: 79, name: 'Gauntlet', img: '', value: 0},
+    { id: 80, name: 'Ankh of Life', img: '', value: 0},
+    { id: 81, name: 'Ring of Feanor', img: '', value: 0},
+    { id: 82, name: 'Medal', img: '', value: 0},
+    { id: 83, name: 'Talisman', img: '', value: 0},
+    { id: 84, name: 'Duplicator', img: '', value: 0},
+    { id: 85, name: 'Kings Stone', img: '', value: 0},
+    { id: 86, name: 'Covenant Stone', img: '', value: 0},
+    { id: 87, name: 'Nauglamir', img: '', value: 0},
+    { id: 88, name: 'Secret Boots', img: '', value: 0}
+  ];
+
   const enemiesObject = [{ id: "1", name: "Dracula", img: "dracula.png", item1: "none", item2: "none" }, { id: "2", name: "Blood Skeleton", img: "blood-skeleton.png", item1: "none", item2: "none" }, { id: "3", name: "Bat", img: "bat.png", item1: "Potion", item2: "Monster Vial 2" }, { id: "4", name: "Stone Skull", img: "stone-skull.png", item1: "none", item2: "none" }, { id: "5", name: "Zombie", img: "zombie.png", item1: "$100", item2: "Cloth Tunic" }, { id: "6", name: "Merman", img: "merman2.png", item1: "Zircon", item2: "Monster Vial 1" }, { id: "7", name: "Skeleton", img: "skeleton.png", item1: "Shield Potion", item2: "Monster Vial 3" }, { id: "8", name: "Warg", img: "warg.png", item1: "none", item2: "none" }, { id: "9", name: "Bone Scimitar", img: "bone-scimitar.png", item1: "Short Sword", item2: "Red Rust" }, { id: "10", name: "Merman", img: "merman3.png", item1: "Zircon", item2: "Monster Vial 1" }, { id: "11", name: "Spittle Bone", img: "spittle-bone.png", item1: "none", item2: "none" }, { id: "12", name: "Axe Knight", img: "axe-knight4.png", item1: "Sub-weapon Axe", item2: "Bronze Cuirass" }, { id: "13", name: "Bloody Zombie", img: "bloody-zombie.png", item1: "Cloth Tunic", item2: "Basilard" }, { id: "14", name: "Slinger", img: "slinger.png", item1: "Leather Shield", item2: "Knight Shield" }, { id: "15", name: "Ouija Table", img: "ouija-table.png", item1: "Barley Tea", item2: "Morning Set" }, { id: "16", name: "Skelerang", img: "skelerang.png", item1: "Boomerang", item2: "Fire Boomerang" }, { id: "17", name: "Thornweed", img: "thornweed.png", item1: "Grapes", item2: "Strawberry" }, { id: "18", name: "Gaibon", img: "gaibon.png", item1: "none", item2: "none" }, { id: "19", name: "Ghost", img: "ghost.png", item1: "$400", item2: "Antivenom" }, { id: "20", name: "Marionette", img: "marionette.png", item1: "Smart Potion", item2: "Circlet" }, { id: "21", name: "Slogra", img: "slogra.png", item1: "none", item2: "none" }, { id: "22", name: "Diplocephalus", img: "diplocephalus.png", item1: "Pentagram", item2: "Tart" }, { id: "23", name: "Flea Man", img: "flea-man.png", item1: "Takemitsu", item2: "Cheese" }, { id: "24", name: "Medusa Head", img: "medusa-head7.png", item1: "Resist Stone", item2: "Medusa Shield" }, { id: "25", name: "Blade Soldier", img: "blade-soldier.png", item1: "$400", item2: "Nakamura" }, { id: "26", name: "Bone Musket", img: "bone-musket.png", item1: "Magic Missile", item2: "Talisman" }, { id: "27", name: "Medusa Head", img: "medusa-head8.png", item1: "Resist Stone", item2: "Medusa Shield" }, { id: "28", name: "Plate Lord", img: "plate-lord.png", item1: "Iron Ball", item2: "Neutron Bomb" }, { id: "29", name: "Stone Rose", img: "stone-rose.png", item1: "Leather Shield", item2: "Meal Ticket" }, { id: "30", name: "Axe Knight", img: "axe-knight9.png", item1: "Sub-weapon Axe", item2: "Axelord Shield" }, { id: "31", name: "Ctulhu", img: "ctulhu.png", item1: "Pentagram", item2: "Bat Pentagram" }, { id: "32", name: "Bone Archer", img: "bone-archer.png", item1: "$400", item2: "Magic Missile" }, { id: "33", name: "Bone Pillar", img: "bone-pillar.png", item1: "Antivenom", item2: "Ballroom Mask" }, { id: "34", name: "Doppleganger10", img: "doppleganger10.png", item1: "none", item2: "none" }, { id: "35", name: "Owl", img: "owl.png", item1: "none", item2: "none" }, { id: "36", name: "Phantom Skull", img: "phantom-skull.png", item1: "Felt Cap", item2: "Resist Dark" }, { id: "37", name: "Scylla wyrm", img: "scylla-wyrm.png", item1: "none", item2: "Nakamura" }, { id: "38", name: "Skeleton Ape", img: "skeleton-ape.png", item1: "Banana", item2: "TNT" }, { id: "39", name: "Spear Guard", img: "spear-guard.png", item1: "Javelin", item2: "Iron Cuirass" }, { id: "40", name: "Spellbook", img: "spellbook.png", item1: "$1000", item2: "Pentagram" }, { id: "41", name: "Winged Guard", img: "winged-guard.png", item1: "Iron Shield", item2: "Javelin" }, { id: "42", name: "Ectoplasm", img: "ectoplasm.png", item1: "Uncurse", item2: "Manna Prism" }, { id: "43", name: "Sword Lord", img: "sword-lord.png", item1: "Cutlass", item2: "Bekatowa" }, { id: "44", name: "Toad", img: "toad.png", item1: "Blue Knuckles", item2: "Pizza" }, { id: "45", name: "Armor Lord", img: "armor-lord.png", item1: "Rapier", item2: "Saber" }, { id: "46", name: "Corner Guard", img: "corner-guard.png", item1: "Cutlass", item2: "Damascus Sword" }, { id: "47", name: "Dhuron", img: "dhuron.png", item1: "Hide Cuirass", item2: "Rapier" }, { id: "48", name: "Frog", img: "frog.png", item1: "Knuckle Duster", item2: "Pizza" }, { id: "49", name: "Frozen Shade", img: "frozen-shade.png", item1: "Ice Mail", item2: "Icecream" }, { id: "50", name: "Magic Tome", img: "magic-tome.png", item1: "$2000", item2: "Saber" }, { id: "51", name: "Skull Lord", img: "skull-lord.png", item1: "Scimitar", item2: "Skull Shield" }, { id: "52", name: "Black Crow", img: "black-crow.png", item1: "Aquamarine", item2: "Red Bean Bun" }, { id: "53", name: "Blue Raven", img: "blue-raven.png", item1: "Zircon", item2: "Pork Bun" }, { id: "54", name: "Corpseweed", img: "corpseweed.png", item1: "Antivenom", item2: "Potion" }, { id: "55", name: "Flail Guard", img: "flail-guard.png", item1: "Morningstar", item2: "Pot Roast" }, { id: "56", name: "Flea Rider", img: "flea-rider.png", item1: "Turkey", item2: "Ham and Eggs" }, { id: "57", name: "Spectral Sword", img: "spectral-sword13.png", item1: "Broadsword", item2: "Bastard Sword" }, { id: "58", name: "Bone Halberd", img: "bone-halberd.png", item1: "Javelin", item2: "Ham and Eggs" }, { id: "59", name: "Scylla", img: "scylla.png", item1: "none", item2: "none" }, { id: "60", name: "Hunting Girl", img: "hunting-girl.png", item1: "Were Bane", item2: "Cheesecake" }, { id: "61", name: "Mudman", img: "mudman.png", item1: "none", item2: "none" }, { id: "62", name: "Owl Knight", img: "owl-knight.png", item1: "Cutlass", item2: "Medal" }, { id: "63", name: "Spectral Sword", img: "spectral-sword15.png", item1: "Broadsword", item2: "Bastard Sword" }, { id: "64", name: "Vandal Sword", img: "vandal-sword.png", item1: "Holy Sword", item2: "Muramasa" }, { id: "65", name: "Flea Armor", img: "flea-armor.png", item1: "High Potion", item2: "Iron Cuirass" }, { id: "66", name: "Hippogryph", img: "hippogryph.png", item1: "none", item2: "none" }, { id: "67", name: "Paranthropus", img: "paranthropus.png", item1: "Gauntlet", item2: "Ring of Varda" }, { id: "68", name: "Slime", img: "slime.png", item1: "none", item2: "none" }, { id: "69", name: "Blade Master", img: "blade-master.png", item1: "Shotel", item2: "Cross Shuriken" }, { id: "70", name: "Wereskeleton", img: "wereskeleton.png", item1: "Str. Potion", item2: "Garnet" }, { id: "71", name: "Grave Keeper", img: "grave-keeper.png", item1: "Miso Soup", item2: "Natou" }, { id: "72", name: "Gremlin", img: "gremlin.png", item1: "Resist Fire", item2: "Fire Mail" }, { id: "73", name: "Harpy", img: "harpy.png", item1: "Apple", item2: "Life Apple" }, { id: "74", name: "Minotaurus", img: "minotaurus.png", item1: "none", item2: "none" }, { id: "75", name: "Werewolf", img: "werewolf18.png", item1: "none", item2: "none" }, { id: "76", name: "Bone Ark", img: "bone-ark.png", item1: "Monster Vial 3", item2: "Skull Shield" }, { id: "77", name: "Valhalla Knight", img: "valhalla-knight.png", item1: "Estoc", item2: "Claymore" }, { id: "78", name: "Cloaked Knight", img: "cloaked-knight.png", item1: "Flamberge", item2: "Heaven Sword" }, { id: "79", name: "Fishhead", img: "fishhead.png", item1: "Resist Ice", item2: "Icebrand" }, { id: "80", name: "Lesser Demon", img: "lesser-demon.png", item1: "Obsidian Sword", item2: "Holbein Dagger" }, { id: "81", name: "Lossoth", img: "lossoth.png", item1: "Sirloin", item2: "Firebrand" }, { id: "82", name: "Salem Witch", img: "salem-witch.png", item1: "Gold Circlet", item2: "Shortcake" }, { id: "83", name: "Blade", img: "blade.png", item1: "Hunter Sword", item2: "Gold Plate" }, { id: "84", name: "Gurkha", img: "gurkha.png", item1: "Combat Knife", item2: "Gold Plate" }, { id: "85", name: "Hammer", img: "hammer.png", item1: "Hammer", item2: "Gold Plate" }, { id: "86", name: "Discus Lord", img: "discus-lord.png", item1: "Chakram", item2: "Jewel Sword" }, { id: "87", name: "Karasuman", img: "karasuman.png", item1: "Resist Dark", item2: "Ring of Feanor" }, { id: "88", name: "Large Slime", img: "large-slime.png", item1: "none", item2: "none" }, { id: "89", name: "Hellfire Beast", img: "hellfire-beast.png", item1: "Lightning Mail", item2: "Fire Mail" }, { id: "90", name: "Cerberos", img: "cerberos.png", item1: "none", item2: "none" }, { id: "91", name: "Killer Fish", img: "killer-fish.png", item1: "Aquamarine", item2: "Sushi" }, { id: "92", name: "Olrox", img: "olrox.png", item1: "none", item2: "none" }, { id: "93", name: "Succubus", img: "succubus.png", item1: "none", item2: "none" }, { id: "94", name: "Tombstone", img: "tombstone.png", item1: "Katana", item2: "Green Tea" }, { id: "95", name: "Venus Weed", img: "venus-weed.png", item1: "Coral Circlet", item2: "Heart Refresh" }, { id: "96", name: "Lion", img: "lion.png", item1: "Gauntlet", item2: "Fist of Tulkas" }, { id: "97", name: "Scarecrow", img: "scarecrow.png", item1: "Javelin", item2: "Muramasa" }, { id: "98", name: "Granfaloon", img: "granfaloon.png", item1: "none", item2: "none" }, { id: "99", name: "Schmoo", img: "schmoo.png", item1: "Ramen", item2: "Crissaegrim" }, { id: "100", name: "Tin man", img: "tin-man.png", item1: "Lunch A", item2: "Mojo Mail" }, { id: "101", name: "Balloon pod", img: "balloon-pod.png", item1: "none", item2: "none" }, { id: "102", name: "Yorick", img: "yorick.png", item1: "Monster Vial 3", item2: "Skull Shield" }, { id: "103", name: "Bomb Knight", img: "bomb-knight.png", item1: "TNT", item2: "Dynamite" }, { id: "104", name: "Flying Zombie", img: "flying-zombie.png", item1: "Shuriken", item2: "Frankfurter" }, { id: "105", name: "Bitterfly", img: "bitterfly.png", item1: "Luck Potion", item2: "Mystic Pendant" }, { id: "106", name: "Jack O' Bones", img: "jack-o'bones.png", item1: "Shuriken", item2: "Flame Star" }, { id: "107", name: "Archer", img: "archer.png", item1: "Heart Refresh", item2: "Vorpal Blade" }, { id: "108", name: "Werewolf", img: "werewolf34.png", item1: "Iron Fist", item2: "Yasutsuna" }, { id: "109", name: "Black Panther", img: "black-panther.png", item1: "Meal Ticket", item2: "Masamune" }, { id: "110", name: "Darkwing Bat", img: "darkwing-bat.png", item1: "none", item2: "none" }, { id: "111", name: "Dragon Rider", img: "dragon-rider.png", item1: "none", item2: "none" }, { id: "112", name: "Minotaur", img: "minotaur.png", item1: "Sirloin", item2: "Fury Plate" }, { id: "113", name: "Nova Skeleton", img: "nova-skeleton.png", item1: "Monster Vial 3", item2: "Terminus Est" }, { id: "114", name: "Orobourous", img: "orobourous.png", item1: "Karma Coin", item2: "Lapis Lazuli" }, { id: "115", name: "White Dragon", img: "white-dragon.png", item1: "none", item2: "none" }, { id: "116", name: "Fire Warg", img: "fire-warg.png", item1: "Turqoise", item2: "Karma Coin" }, { id: "117", name: "Rock Knight", img: "rock-knight.png", item1: "Jewel Knuckles", item2: "Platinum Mail" }, { id: "118", name: "Sniper of Goth", img: "sniper-of-goth.png", item1: "Magic Missile", item2: "Brilliant Mail" }, { id: "119", name: "Spectral Sword", img: "spectral-sword36.png", item1: "Gurthang", item2: "Mablung Sword" }, { id: "120", name: "Ghost Dancer", img: "ghost-dancer.png", item1: "Buffalo Star", item2: "Stone Mask" }, { id: "121", name: "Warg Rider", img: "warg-rider.png", item1: "none", item2: "none" }, { id: "122", name: "Cave Troll", img: "cave-troll.png", item1: "Neutron Bomb", item2: "Nauglamir" }, { id: "123", name: "Dark Octopus", img: "dark-octopus.png", item1: "Sushi", item2: "Green Tea" }, { id: "124", name: "Fire Demon", img: "fire-demon.png", item1: "Fire Shield", item2: "Marsil" }, { id: "125", name: "Gorgon", img: "gorgon.png", item1: "Hammer", item2: "Stone Sword" }, { id: "126", name: "Malachi", img: "malachi.png", item1: "Dark Shield", item2: "Dark Armor" }, { id: "127", name: "Akmodan II", img: "akmodan-ii.png", item1: "none", item2: "none" }, { id: "128", name: "Blue Venus Weed", img: "blue-venus-weed.png", item1: "Zweihander", item2: "Heart Refresh" }, { id: "129", name: "Doppleganger40", img: "doppleganger40.png", item1: "none", item2: "none" }, { id: "130", name: "Medusa", img: "medusa.png", item1: "none", item2: "none" }, { id: "131", name: "The Creature", img: "the-creature.png", item1: "none", item2: "none" }, { id: "132", name: "Fake Grant", img: "fake-grant.png", item1: "none", item2: "none" }, { id: "133", name: "Fake Trevor", img: "fake-trevor.png", item1: "none", item2: "none" }, { id: "134", name: "Imp", img: "imp.png", item1: "Luck Potion", item2: "King's Stone" }, { id: "135", name: "Fake Sypha", img: "fake-sypha.png", item1: "none", item2: "none" }, { id: "136", name: "Beezelbub", img: "beezelbub.png", item1: "none", item2: "none" }, { id: "137", name: "Azaghal", img: "azaghal.png", item1: "Covenant Stone", item2: "Mourneblade" }, { id: "138", name: "Frozen Half", img: "frozen-half.png", item1: "Necklace of J", item2: "Opal Circlet" }, { id: "139", name: "Salome", img: "salome.png", item1: "Wizard Hat", item2: "Manna Prism" }, { id: "140", name: "Richter Belmont", img: "richter-belmont.png", item1: "none", item2: "none" }, { id: "141", name: "Dodo Bird", img: "dodo-bird.png", item1: "Heart Broach", item2: "Runesword" }, { id: "142", name: "Galamoth", img: "galamoth.png", item1: "none", item2: "none" }, { id: "143", name: "Guardian", img: "guardian.png", item1: "Great Sword", item2: "God's Garb" }, { id: "144", name: "Death", img: "death.png", item1: "none", item2: "none" }, { id: "145", name: "Shaft", img: "shaft.png", item1: "none", item2: "none" }];
   const nonDroppersIndex = [0, 1, 3, 7, 10, 17, 20, 33, 34, 36, 58, 60, 65, 67, 73, 74, 87, 89, 91, 92, 97, 100, 109, 110, 114, 120, 126, 128, 129, 130, 131, 132, 134, 135, 139, 141, 143, 144];
 
@@ -36,6 +243,16 @@
       }
     }
     return reverse ? binary.split("").reverse() : binary.split("");
+  }
+
+  const getDecimal = (input, start) => {
+    const decimal = input[start];
+    return decimal.charCodeAt(0).toString(10);
+  }
+
+  const getHexa = (input, start) => {
+    const decimal = input[start];
+    return decimal.charCodeAt(0).toString(16);
   }
 
   const renderEnemyCard = (enemiesObject, updatedIndex) => {
@@ -69,12 +286,12 @@
     return card;
   }
 
-  const getEnemies = (input, startAddress) => {
+  const getEnemies = (input, dropAddress) => {
     const enemies = [];
     const enemiesContainer = document.createElement('ul');
     // There 18 bytes of memory storing rare items dropped
     for (let enemyBlock = 0; enemyBlock < 18; enemyBlock ++ ) {
-      binData = getBinArray(input, startAddress + enemyBlock, true);
+      binData = getBinArray(input, dropAddress + enemyBlock, true);
       missingEnemies = getMissing(binData);
       missingEnemies.forEach((item) => {
         const updatedIndex = item + (enemyBlock * 8);
@@ -100,10 +317,42 @@
     return enemiesContainer;
   }
 
+  const getItems = (input, startAddress, size) => {
+    const itemsDiv = document.createElement('div');
+    let result = '';
+    for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
+      const itemQnt = getDecimal(input, startAddress + itemIndex);
+      if (itemsObject[itemIndex]) {
+        result += `${itemsObject[itemIndex].name} [${itemQnt}], `;
+      }
+    }
+    itemsDiv.innerHTML = result;
+
+    return itemsDiv;
+  }
+
+  const getOtherItems = (input, startAddress, size) => {
+    let potentialGold = 0;
+    const itemsSpan = document.createElement('div');
+    let result = '';
+    for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
+      const itemQnt = getDecimal(input, startAddress + itemIndex);
+      if (otherItemsObject[itemIndex]) {
+        result += `${otherItemsObject[itemIndex].name} [${itemQnt}], `;
+        potentialGold += otherItemsObject[itemIndex].value;
+      }
+    }
+    itemsSpan.innerHTML = result;
+    console.log('Potential Gold', potentialGold);
+    return itemsSpan;
+  }
+
 
   const loadMemoryCard = () => {
     const selectedSlot = document.getElementById('slot').value;
-    const rareItemsAddress = startAddress + ((selectedSlot - 1) * slotOffset);
+    const rareItemsAddress = dropAddress + ((selectedSlot - 1) * slotOffset);
+    const normalItemsAddress = itemsAddress + ((selectedSlot - 1) * slotOffset);
+    const otherItemsAddressRef = otherItemsAddress + ((selectedSlot - 1) * slotOffset);
     const file = document.getElementById('files').files[0];
     if (!file) {
       alert('File not found!');
@@ -117,11 +366,21 @@
     reader.onload = (() => (e) => {
       const mcard = e.target.result;
       const list = document.getElementById('list');
-      const startAddress = file.extension === 'sav' ? rareItemsAddress - androidOffset : rareItemsAddress;
-      console.log(file.extension, startAddress);
+      const resultContainer = document.createElement('div');
+      const dropStartAddress = file.extension === 'sav' ? rareItemsAddress - androidOffset : rareItemsAddress;
+      const itemStartAddress = file.extension === 'sav' ? normalItemsAddress - androidOffset : normalItemsAddress;
+      const otherItemStartAddress = file.extension === 'sav' ? otherItemsAddressRef - androidOffset : otherItemsAddressRef;
+
+      console.log(file.extension, dropStartAddress, 'x'+dropStartAddress.toString(16));
+      console.log(file.extension, itemStartAddress, 'x'+itemStartAddress.toString(16));
+      console.log(file.extension, otherItemStartAddress, 'x'+otherItemStartAddress.toString(16));
+
       // Render result.
+      resultContainer.appendChild(getEnemies(mcard, dropStartAddress));
+      resultContainer.appendChild(getItems(mcard, itemStartAddress, 180));
+      resultContainer.appendChild(getOtherItems(mcard, otherItemStartAddress, 31));
       list.removeChild(list.firstChild);
-      list.appendChild(getEnemies(mcard, startAddress));
+      list.appendChild(resultContainer);
     })(file);
 
     reader.readAsBinaryString(file);
