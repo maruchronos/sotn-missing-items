@@ -7,187 +7,190 @@
   <input type="number" id="slot" name="slot" min="1" value="3"/>
   <button class="btn btn-info" id="load">Load</button>
 </div>
-<h2 id="summary"></h2>
+<h5 id="summary"></h5>
+<h5 id="gold-summary"></h5>
 <output id="list"><div></div></output>
 
 <script>
-  const dropAddress = 10360;
-  const itemsAddress = 8799;
-  const otherItemsAddress = 9025;
-  const slotOffset = 8192;
+  const currentGoldAddr = 9412;
+  const dropAddr = 10360;
+  const itemsAddr = 8798;
+  const otherItemsAddr = 9024;
   const androidOffset = 7877;
   const itemsObject = [
-    { name: 'Monster Vial 1', qnt: 6 },
-    { name: 'Monster Vial 2', qnt: 7 },
-    { name: 'Monster Vial 3', qnt: 39 },
-    { name: 'Shield Rod', qnt: 1 },
-    { name: 'Leather Shield', qnt: 5 },
-    { name: 'Knight Shield', qnt: 66 },
-    { name: 'Iron Shield', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: 'Basilard', qnt: 7 },
-    { name: 'Short Sword', qnt: 12 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 8 },
-    { name: '', qnt: 14 },
-    { name: 'Red Rust Sword', qnt: 11 },
-    { name: '', qnt: 10 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 12 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 6 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 0 },
-    { name: 'Morning Set', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: 'Barley Tea', qnt: 1 },
-    { name: '', qnt: 8 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 10 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 30 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 23 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 19 },
-    { name: '', qnt: 6 },
-    { name: '', qnt: 9 },
-    { name: '', qnt: 5 },
-    { name: '', qnt: 8 },
-    { name: '', qnt: 93 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 7 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 14 },
-    { name: '', qnt: 12 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 5 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 10 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 5 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 11 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 1 },
-    { name: 'Jewel Sword', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },,
-    { name: '', qnt: 0 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 9 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: 'Heaven Sword', qnt: 0 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 0 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 14 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 3 },
-    { name: '', qnt: 8 },
-    { name: 'Runesword', qnt: 1 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 12 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 5 },
-    { name: '', qnt: 5 },
-    { name: '', qnt: 17 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 8 },
-    { name: '', qnt: 27 },
-    { name: 'Resist Thunder', qnt: 4 },
-    { name: '', qnt: 4 },
-    { name: '', qnt: 29 },
-    { name: '', qnt: 1 },
-    { name: '', qnt: 24 },
-    { name: 'Potion', qnt: 12 },
-    { name: '', qnt: 6 },
-    { name: '', qnt: 2 },
-    { name: '', qnt: 7 },
-    { name: '', qnt: 1 },
-    { name: 'Crissaegrim', qnt: 2 },
-    { name: '', qnt: 1 },
-    { name: 'Library Card', qnt: 2 },
-    { name: 'Alucard Shield', qnt: 1 },
-    { name: 'Alucard Sword', qnt: 1 }
+    { name: 'Empty Hand'},
+    { name: 'Monster Vial 1'},
+    { name: 'Monster Vial 2'},
+    { name: 'Monster Vial 3'},
+    { name: 'Shield Rod'},
+    { name: 'Leather Shield'},
+    { name: 'Knight Shield'},
+    { name: 'Iron Shield'},
+    { name: 'AxeLord Shield'},
+    { name: 'Herald Shield'},
+    { name: 'Dark Shield'},
+    { name: 'Goddess Shield'},
+    { name: 'Shaman Shield'},
+    { name: 'Medusa Shield'},
+    { name: 'Skull Shield'},
+    { name: 'Fire Shield'},
+    { name: 'Alucart Shield'},
+    { name: 'Sword of Dawn'},
+    { name: 'Basilard'},
+    { name: 'Short Sword'},
+    { name: 'Combat Knife'},
+    { name: 'Nunchaku'},
+    { name: 'Were Bane'},
+    { name: 'Rapier'},
+    { name: 'Karma Coin'},
+    { name: 'Magic Missile'},
+    { name: 'Red Rust Sword'},
+    { name: 'Takemitsu'},
+    { name: 'Shotel'},
+    { name: 'Orange'},
+    { name: 'Apple'},
+    { name: 'Banana'},
+    { name: 'Grapes'},
+    { name: 'Strawberry'},
+    { name: 'Pineaple'},
+    { name: 'Peanuts'},
+    { name: 'Toadstool'},
+    { name: 'Shiitake'},
+    { name: 'Cheesecake'},
+    { name: 'Shortcake'},
+    { name: 'Tart'},
+    { name: 'Parfait'},
+    { name: 'Pudding'},
+    { name: 'Ice Cream'},
+    { name: 'Frankfurter'},
+    { name: 'Hamburger'},
+    { name: 'Pizza'},
+    { name: 'Cheese'},
+    { name: 'Ham and Eggs'},
+    { name: 'Omelette'},
+    { name: 'Morning Set'},
+    { name: 'Lunch A'},
+    { name: 'Lunch B'},
+    { name: 'Curry Rice'},
+    { name: 'Gyros Plate'},
+    { name: 'Spaghetti'},
+    { name: 'Grape Juice'},
+    { name: 'Barley Tea'},
+    { name: 'Green Tea'},
+    { name: 'Natou'},
+    { name: 'Ramen'},
+    { name: 'Miso Soup'},
+    { name: 'Sushi'},
+    { name: 'Pork Bun'},
+    { name: 'Red Bean Bun'},
+    { name: 'Chinese Bun'},
+    { name: 'Dim Sum Set'},
+    { name: 'Pot Roast'},
+    { name: 'Sirloin'},
+    { name: 'Turkey'},
+    { name: 'Meal Ticket'},
+    { name: 'Neutron Bomb'},
+    { name: 'Power of Sire'},
+    { name: 'Pentagram'},
+    { name: 'Bat Pentagram'},
+    { name: 'Shuriken'},
+    { name: 'Cross Shuriken'},
+    { name: 'Buffalo Star'},
+    { name: 'Flame Star'},
+    { name: 'TNT'},
+    { name: 'Bwaka Knife'},
+    { name: 'Boomerang'},
+    { name: 'Javelin'},
+    { name: 'Tyrfing'},
+    { name: 'Nakamura'},
+    { name: 'Knuckle Duster'},
+    { name: 'Gladius'},
+    { name: 'Scimitar'},
+    { name: 'Cutlass'},
+    { name: '59'},
+    { name: 'Falchion'},
+    { name: 'Broadsword'},
+    { name: 'Bekatowa'},
+    { name: 'Damascus Sword'},
+    { name: 'Hunter Sword'},
+    { name: 'Estoc'},
+    { name: 'Bastard Sword'},
+    { name: 'Jewel Knuckles'},
+    { name: 'Claymore'},
+    { name: '63'},
+    { name: 'Katana'},
+    { name: 'Flamberge'},
+    { name: 'Iron Fist'},
+    { name: 'Zwei Hander'},
+    { name: 'Sword of Hador'},
+    { name: 'Luminus'},
+    { name: 'Harper'},
+    { name: 'Obsidian Sword'},
+    { name: 'Gram'},
+    { name: 'Jewel Sword'},
+    { name: 'Mormegil'},
+    { name: 'Firebrand'},
+    { name: 'Thunderbrand'},
+    { name: 'Icebrand'},
+    { name: 'Stone Sword'},
+    { name: 'Holy Sword'},
+    { name: 'Terminus Est'},
+    { name: 'Marsil'},
+    { name: 'Dark Blade'},
+    { name: 'Heaven Sword'},
+    { name: 'Fist of Tulkas'},
+    { name: 'Gurthang'},
+    { name: 'Mourneblade'},
+    { name: 'Alucart Sword'},
+    { name: 'Mablung Sword'},
+    { name: 'Badelaire?'},
+    { name: 'Sword Familiar'},
+    { name: '7F'},
+    { name: 'Mace'},
+    { name: 'Morningstar'},
+    { name: 'Holy Rod'},
+    { name: 'Star Flail'},
+    { name: 'Moon Rod'},
+    { name: 'Chakram'},
+    { name: 'Fire Boomerang'},
+    { name: 'Iron Ball'},
+    { name: '88'},
+    { name: 'Blue Knuckles'},
+    { name: 'Dynamite'},
+    { name: '8B'},
+    { name: '8C'},
+    { name: 'Muramasa'},
+    { name: 'Heart Refresh'},
+    { name: 'Runesword'},
+    { name: 'Antivenom'},
+    { name: 'Uncurse'},
+    { name: 'Life Apple'},
+    { name: 'Hammer'},
+    { name: 'Str. Potion'},
+    { name: 'Luck Potion'},
+    { name: 'Smart Potion'},
+    { name: 'Attack Potion'},
+    { name: 'Shield Potion'},
+    { name: 'Resist Fire'},
+    { name: 'Resist Thunder'},
+    { name: 'Resist Ice'},
+    { name: 'Resist Stone'},
+    { name: 'Resist Holy'},
+    { name: 'Resist Dark'},
+    { name: 'Potion'},
+    { name: 'High Potion'},
+    { name: 'Elixir'},
+    { name: 'Manna Prism'},
+    { name: 'Vorpal Blade'},
+    { name: 'Crissaegrim'},
+    { name: 'A5'},
+    { name: 'Library Card'},
+    { name: 'Alucard Shield'},
+    { name: 'Alucard Sword' }
   ];
 
   const otherItemsObject = [
+    { id: 57, name: 'Empty Hand', img: '', value: 0},
     { id: 58, name: 'Moonstone', img: '', value: 0},
     { id: 59, name: 'Sunstone', img: '', value: 0},
     { id: 60, name: 'Bloodstone', img: '', value: 0},
@@ -196,7 +199,7 @@
     { id: 63, name: 'Zircon', img: '', value: 150},
     { id: 64, name: 'Aquamarine', img: '', value: 800},
     { id: 65, name: 'Turquoise', img: '', value: 1500},
-    { id: 66, name: 'Onix', img: '', value: 3000},
+    { id: 66, name: 'Onyx', img: '', value: 3000},
     { id: 67, name: 'Garnet', img: '', value: 5000},
     { id: 68, name: 'Opal', img: '', value: 8000},
     { id: 69, name: 'Diamond', img: '', value: 100000},
@@ -204,7 +207,7 @@
     { id: 71, name: 'Ring of Ares', img: '', value: 0},
     { id: 72, name: 'Gold Ring', img: '', value: 0},
     { id: 73, name: 'Silver Ring', img: '', value: 0},
-    { id: 74, name: 'Ring of Valar', img: '', value: 0},
+    { id: 74, name: 'Ring of Varda', img: '', value: 0},
     { id: 75, name: 'Ring of Arcana', img: '', value: 0},
     { id: 76, name: 'Mystic Pendant', img: '', value: 0},
     { id: 77, name: 'Heart Broach', img: '', value: 0},
@@ -245,6 +248,15 @@
     return reverse ? binary.split("").reverse() : binary.split("");
   }
 
+  const getDataSlice = (input, start, size) => {
+    const decimal = input.substr(start, size);
+    let result = '';
+    for (let index = decimal.length - 1; index >= 0; index--) {
+      result += decimal[index].charCodeAt(0).toString(16);
+    }
+    return parseInt(result, 16);
+  }
+
   const getDecimal = (input, start) => {
     const decimal = input[start];
     return decimal.charCodeAt(0).toString(10);
@@ -255,7 +267,13 @@
     return decimal.charCodeAt(0).toString(16);
   }
 
-  const renderEnemyCard = (enemiesObject, updatedIndex) => {
+  const getOffsetAddr = (addr) => {
+    const slotOffset = 8192; // Delta between each memory block save
+    const selectedSlot = document.getElementById('slot').value;
+    return addr + ((selectedSlot - 1) * slotOffset);
+  }
+
+  const renderEnemyCard = (index) => {
     const card = document.createElement('li');
     const monster = document.createElement('div');
     const monsterId = document.createElement('span');
@@ -267,16 +285,16 @@
 
     monster.className = 'monster';
     monsterId.className = 'monster-id';
-    monsterImage.src = 'enemies/'+enemiesObject[updatedIndex].img;
-    monsterName.innerHTML = enemiesObject[updatedIndex].name;
-    monsterId.innerHTML = 'No.' + enemiesObject[updatedIndex].id;
+    monsterImage.src = 'enemies/'+enemiesObject[index].img;
+    monsterName.innerHTML = enemiesObject[index].name;
+    monsterId.innerHTML = 'No.' + enemiesObject[index].id;
     monster.appendChild(monsterId);
     monster.appendChild(monsterImage);
     monster.appendChild(monsterName);
 
     itemsContainer.className = 'items-container';
-    item1.innerHTML = enemiesObject[updatedIndex].item1;
-    item2.innerHTML = enemiesObject[updatedIndex].item2;
+    item1.innerHTML = enemiesObject[index].item1;
+    item2.innerHTML = enemiesObject[index].item2;
     itemsContainer.appendChild(item1);
     itemsContainer.appendChild(item2);
 
@@ -286,19 +304,56 @@
     return card;
   }
 
-  const getEnemies = (input, dropAddress) => {
+  const renderItemCard = (itemArray, index, qnt, hasAtlas) => {
+    const card = document.createElement('li');
+    const item = document.createElement('div');
+    const itemInfo = document.createElement('div');
+    const itemQnt = document.createElement('span');
+    let itemImage = document.createElement('div');
+    const itemName = document.createElement('span');
+
+    item.className = 'item';
+    itemInfo.className = 'item-info';
+    itemImage.className = 'weapon-icon';
+    itemName.innerHTML = itemArray[index].name;
+    itemQnt.className = 'item-qnt';
+    itemQnt.innerHTML = qnt;
+
+    if (!hasAtlas) {
+      const name = itemArray[index].name.toLowerCase().split(' ').join('-');
+      itemImage = document.createElement('img');
+      itemImage.src = `items/${name}.gif`;
+      itemImage.alt = name;
+    }
+
+    const row = Math.floor(index/16) * 16;
+    const column = (index%16) * 16;
+    itemImage.setAttribute('style', `background-position: -${column}px -${row}px;`)
+
+    itemInfo.appendChild(itemImage);
+    itemInfo.appendChild(itemName);
+    item.appendChild(itemInfo);
+    item.appendChild(itemQnt);
+
+    card.appendChild(item);
+
+    return card;
+  }
+
+  const getEnemies = (input, dropAddr) => {
     const enemies = [];
     const enemiesContainer = document.createElement('ul');
+    enemiesContainer.className = 'enemy-container';
     // There 18 bytes of memory storing rare items dropped
     for (let enemyBlock = 0; enemyBlock < 18; enemyBlock ++ ) {
-      binData = getBinArray(input, dropAddress + enemyBlock, true);
+      binData = getBinArray(input, dropAddr + enemyBlock, true);
       missingEnemies = getMissing(binData);
       missingEnemies.forEach((item) => {
         const updatedIndex = item + (enemyBlock * 8);
         // Check if current monster doesn't drop items at all
         const enemyIsDropper = (nonDroppersIndex.findIndex(item => item === updatedIndex) === -1) ;
         if (enemyIsDropper) {
-          const card = renderEnemyCard(enemiesObject, updatedIndex);
+          const card = renderEnemyCard(updatedIndex);
           enemiesContainer.appendChild(card);
 
           enemies.push({
@@ -312,47 +367,53 @@
 
     const summary = document.getElementById('summary');
     summary.innerText = 'Missing ' + enemies.length + ' rare items.';
-    console.log(enemies);
+
+    if (enemies.length === 0) {
+      enemiesContainer.setAttribute('style', 'display: none;');
+      summary.innerText = 'No rare items missing';
+    }
 
     return enemiesContainer;
   }
 
-  const getItems = (input, startAddress, size) => {
-    const itemsDiv = document.createElement('div');
-    let result = '';
+  const getItems = (input, startAddr, size) => {
+    const weaponsContainer = document.createElement('ul');
+    weaponsContainer.className = 'weapon-container blue-bg';
     for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
-      const itemQnt = getDecimal(input, startAddress + itemIndex);
+      const itemQnt = getDecimal(input, startAddr + itemIndex);
       if (itemsObject[itemIndex]) {
-        result += `${itemsObject[itemIndex].name} [${itemQnt}], `;
+        const card = renderItemCard(itemsObject, itemIndex, itemQnt, true);
+        weaponsContainer.appendChild(card);
       }
     }
-    itemsDiv.innerHTML = result;
 
-    return itemsDiv;
+    return weaponsContainer;
   }
 
-  const getOtherItems = (input, startAddress, size) => {
+  const getOtherItems = (input, startAddr, size) => {
     let potentialGold = 0;
-    const itemsSpan = document.createElement('div');
-    let result = '';
+    const itemsContainer = document.createElement('ul');
+    itemsContainer.className = 'item-container blue-bg';
     for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
-      const itemQnt = getDecimal(input, startAddress + itemIndex);
+      const itemQnt = getDecimal(input, startAddr + itemIndex);
       if (otherItemsObject[itemIndex]) {
-        result += `${otherItemsObject[itemIndex].name} [${itemQnt}], `;
-        potentialGold += otherItemsObject[itemIndex].value;
+        const card = renderItemCard(otherItemsObject, itemIndex, itemQnt);
+        itemsContainer.appendChild(card);
+        potentialGold += (itemQnt*otherItemsObject[itemIndex].value);
       }
     }
-    itemsSpan.innerHTML = result;
-    console.log('Potential Gold', potentialGold);
-    return itemsSpan;
+
+    const currentGold = getDataSlice(input, getOffsetAddr(currentGoldAddr), 4);
+    const goldSummary = document.getElementById('gold-summary');
+    goldSummary.innerText = `Current Gold: ${currentGold} + ${potentialGold} [sellables items] = ${currentGold+potentialGold}`;
+    return itemsContainer;
   }
 
 
   const loadMemoryCard = () => {
-    const selectedSlot = document.getElementById('slot').value;
-    const rareItemsAddress = dropAddress + ((selectedSlot - 1) * slotOffset);
-    const normalItemsAddress = itemsAddress + ((selectedSlot - 1) * slotOffset);
-    const otherItemsAddressRef = otherItemsAddress + ((selectedSlot - 1) * slotOffset);
+    const rareItemsAddr = getOffsetAddr(dropAddr);
+    const normalItemsAddr = getOffsetAddr(itemsAddr);
+    const otherItemsAddrRef = getOffsetAddr(otherItemsAddr);
     const file = document.getElementById('files').files[0];
     if (!file) {
       alert('File not found!');
@@ -367,18 +428,19 @@
       const mcard = e.target.result;
       const list = document.getElementById('list');
       const resultContainer = document.createElement('div');
-      const dropStartAddress = file.extension === 'sav' ? rareItemsAddress - androidOffset : rareItemsAddress;
-      const itemStartAddress = file.extension === 'sav' ? normalItemsAddress - androidOffset : normalItemsAddress;
-      const otherItemStartAddress = file.extension === 'sav' ? otherItemsAddressRef - androidOffset : otherItemsAddressRef;
+      resultContainer.className = 'container'
+      const dropStartAddr = file.extension === 'sav' ? rareItemsAddr - androidOffset : rareItemsAddr;
+      const itemStartAddr = file.extension === 'sav' ? normalItemsAddr - androidOffset : normalItemsAddr;
+      const otherItemStartAddr = file.extension === 'sav' ? otherItemsAddrRef - androidOffset : otherItemsAddrRef;
 
-      console.log(file.extension, dropStartAddress, 'x'+dropStartAddress.toString(16));
-      console.log(file.extension, itemStartAddress, 'x'+itemStartAddress.toString(16));
-      console.log(file.extension, otherItemStartAddress, 'x'+otherItemStartAddress.toString(16));
+      console.log(file.extension, dropStartAddr, 'x'+dropStartAddr.toString(16));
+      console.log(file.extension, itemStartAddr, 'x'+itemStartAddr.toString(16));
+      console.log(file.extension, otherItemStartAddr, 'x'+otherItemStartAddr.toString(16));
 
       // Render result.
-      resultContainer.appendChild(getEnemies(mcard, dropStartAddress));
-      resultContainer.appendChild(getItems(mcard, itemStartAddress, 180));
-      resultContainer.appendChild(getOtherItems(mcard, otherItemStartAddress, 31));
+      resultContainer.appendChild(getEnemies(mcard, dropStartAddr));
+      resultContainer.appendChild(getItems(mcard, itemStartAddr, 180));
+      resultContainer.appendChild(getOtherItems(mcard, otherItemStartAddr, 32));
       list.removeChild(list.firstChild);
       list.appendChild(resultContainer);
     })(file);
