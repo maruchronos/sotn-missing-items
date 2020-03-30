@@ -1,22 +1,55 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <link rel="stylesheet" href="styles.css" />
 
-<div id="input-container">
-  <input type="file" id="files" name="files" />
-  <label>Save slot: </label>
-  <input type="number" id="slot" name="slot" min="1" value="3"/>
-  <button class="btn btn-info" id="load">Load</button>
+<div id="input-container" class="container">
+  <div id="file-container">
+    <input type="file" id="files" name="files" />
+  </div>
+  <div id="slot-selector" class="hide full-height">
+    <h5>Choose slot: </h5>
+    <div id="slot-list" class="btn-group" role="group" aria-label="Slot selector">
+      <button type="button" onclick={selectSlot(1)} class="btn btn-secondary active">01</button>
+      <button type="button" onclick={selectSlot(2)} class="btn btn-secondary">02</button>
+      <button type="button" onclick={selectSlot(3)} class="btn btn-secondary">03</button>
+      <button type="button" onclick={selectSlot(4)} class="btn btn-secondary">04</button>
+      <button type="button" onclick={selectSlot(5)} class="btn btn-secondary">05</button>
+      <button type="button" onclick={selectSlot(6)} class="btn btn-secondary">06</button>
+      <button type="button" onclick={selectSlot(7)} class="btn btn-secondary">07</button>
+      <button type="button" onclick={selectSlot(8)} class="btn btn-secondary">08</button>
+      <button type="button" onclick={selectSlot(9)} class="btn btn-secondary">09</button>
+      <button type="button" onclick={selectSlot(10)} class="btn btn-secondary">10</button>
+      <button type="button" onclick={selectSlot(11)} class="btn btn-secondary">11</button>
+      <button type="button" onclick={selectSlot(12)} class="btn btn-secondary">12</button>
+      <button type="button" onclick={selectSlot(13)} class="btn btn-secondary">13</button>
+      <button type="button" onclick={selectSlot(14)} class="btn btn-secondary">14</button>
+      <button type="button" onclick={selectSlot(15)} class="btn btn-secondary">15</button>
+    </div>
+  </div>
 </div>
-<h5 id="summary"></h5>
-<h5 id="gold-summary"></h5>
-<output id="list"><div></div></output>
+<div id="tab-selector" class="container hide" role="group" aria-label="Tab selector">
+  <button type="button" onclick={selectTab(0)} class="btn btn-secondary active">Stats</button>
+  <button type="button" onclick={selectTab(1)} class="btn btn-secondary">Monsters</button>
+  <button type="button" onclick={selectTab(2)} class="btn btn-secondary">Weapon</button>
+  <button type="button" onclick={selectTab(3)} class="btn btn-secondary">Other Items</button>
+</div>
+<div id="output"><div></div></div>
 
 <script>
-  const currentGoldAddr = 9412;
+  let mcard = null;
+  let extension = '';
+  let missingRareDropsCount = 0;
+  const usernameAddr = parseInt("2200", 16);
+  const levelAddr = parseInt("220C", 16);
+  const hoursAddr = parseInt("2214", 16);
+  const minutesAddr = parseInt("2218", 16);
+  const secondsAddr = parseInt("221C", 16);
+  const roomsAddr = parseInt("222A", 16);
+  const currentGoldAddr = parseInt("24C4", 16);
   const dropAddr = 10360;
   const itemsAddr = 8798;
   const otherItemsAddr = 9024;
   const androidOffset = 7877;
+  let selectedSlot = 1;
   const itemsObject = [
     { name: 'Empty Hand'},
     { name: 'Monster Vial 1'},
@@ -248,12 +281,17 @@
     return reverse ? binary.split("").reverse() : binary.split("");
   }
 
-  const getDataSlice = (input, start, size) => {
-    const decimal = input.substr(start, size);
+  const getDataSlice = (start, size, type) => {
+    const byte = mcard.substr(start, size);
     let result = '';
-    for (let index = decimal.length - 1; index >= 0; index--) {
-      result += decimal[index].charCodeAt(0).toString(16);
+    if (type === 'string') {
+      return byte;
     }
+
+    for (let index = byte.length - 1; index >= 0; index--) {
+      result += byte[index].charCodeAt(0).toString(16);
+    }
+
     return parseInt(result, 16);
   }
 
@@ -267,15 +305,52 @@
     return decimal.charCodeAt(0).toString(16);
   }
 
+  const selectSlot = (slot) => {
+    selectedSlot = slot;
+    const list = document.getElementById("slot-list");
+    for (let i = 0; i < list.children.length; i++) {
+      list.children[i].classList.remove("active");
+      if (i === slot -1) {
+        list.children[i].classList.add("active");
+      }
+    }
+    loadMemoryCard();
+  }
+
+  const selectTab = (tab) => {
+    const tabList = ['stats-container', 'enemy-container', 'weapon-container', 'item-container'];
+    const list = document.getElementById("tab-selector");
+    for (let i = 0; i < list.children.length; i++) {
+      const currentTab = document.getElementById(tabList[i]);
+      list.children[i].classList.remove("active");
+      currentTab.classList.remove("hide");
+      if (i === tab) {
+        list.children[i].classList.add("active");
+      } else {
+        currentTab.classList.add("hide");
+      }
+    }
+  }
+
+  const disableSlot = (slot) => {
+    const list = document.getElementById("slot-list");
+    for (let i = 0; i < list.children.length; i++) {
+      if (i === slot) {
+        list.children[i].setAttribute('disabled', true);
+      }
+    }
+  }
+
   const getOffsetAddr = (addr) => {
     const slotOffset = 8192; // Delta between each memory block save
-    const selectedSlot = document.getElementById('slot').value;
+    // Use extension to offset if needed
     return addr + ((selectedSlot - 1) * slotOffset);
   }
 
-  const renderEnemyCard = (index) => {
+  const renderMonsterCard = (monster) => {
     const card = document.createElement('li');
-    const monster = document.createElement('div');
+    const monsterImages = document.createElement('div');
+    const monsterInfo = document.createElement('div');
     const monsterId = document.createElement('span');
     const monsterImage = document.createElement('img');
     const monsterName = document.createElement('span');
@@ -283,23 +358,27 @@
     const item1 = document.createElement('span');
     const item2 = document.createElement('span');
 
-    monster.className = 'monster';
+    card.className = 'monster-card';
+    monsterImages.className = 'monster';
+    monsterInfo.className = 'monster-info';
     monsterId.className = 'monster-id';
-    monsterImage.src = 'enemies/'+enemiesObject[index].img;
-    monsterName.innerHTML = enemiesObject[index].name;
-    monsterId.innerHTML = 'No.' + enemiesObject[index].id;
-    monster.appendChild(monsterId);
-    monster.appendChild(monsterImage);
-    monster.appendChild(monsterName);
+    monsterImage.src = 'enemies/'+monster.img;
+    monsterName.innerHTML = monster.name;
+    monsterId.innerHTML = 'No.' + monster.id;
+    monsterInfo.appendChild(monsterId);
+    monsterInfo.appendChild(monsterName);
+    monsterImages.appendChild(monsterImage);
 
     itemsContainer.className = 'items-container';
-    item1.innerHTML = enemiesObject[index].item1;
-    item2.innerHTML = enemiesObject[index].item2;
+    item1.innerHTML = monster.item1;
+    item2.innerHTML = monster.item2;
     itemsContainer.appendChild(item1);
     itemsContainer.appendChild(item2);
+    monsterImages.appendChild(itemsContainer);
 
-    card.appendChild(monster);
-    card.appendChild(itemsContainer);
+
+    card.appendChild(monsterInfo);
+    card.appendChild(monsterImages);
 
     return card;
   }
@@ -340,47 +419,53 @@
     return card;
   }
 
-  const getEnemies = (input, dropAddr) => {
+  const getEnemies = () => {
+    const input = mcard;
     const enemies = [];
     const enemiesContainer = document.createElement('ul');
-    enemiesContainer.className = 'enemy-container';
+    enemiesContainer.id = 'enemy-container';
+    enemiesContainer.className = 'hide';
+    // There 18 bytes of memory storing rare items dropped
+    const monsters = getYetToDropMonsters();
+
+    monsters.forEach(monster => {
+      const card = renderMonsterCard(monster);
+      enemiesContainer.appendChild(card);
+    });
+
+    missingRareDropsCount = enemies.length;
+
+    return enemiesContainer;
+  }
+
+  const getYetToDropMonsters = () => {
+    const monsters = [];
+    const address = getOffsetAddr(dropAddr);
     // There 18 bytes of memory storing rare items dropped
     for (let enemyBlock = 0; enemyBlock < 18; enemyBlock ++ ) {
-      binData = getBinArray(input, dropAddr + enemyBlock, true);
+      binData = getBinArray(mcard, address + enemyBlock, true);
       missingEnemies = getMissing(binData);
       missingEnemies.forEach((item) => {
         const updatedIndex = item + (enemyBlock * 8);
         // Check if current monster doesn't drop items at all
         const enemyIsDropper = (nonDroppersIndex.findIndex(item => item === updatedIndex) === -1) ;
         if (enemyIsDropper) {
-          const card = renderEnemyCard(updatedIndex);
-          enemiesContainer.appendChild(card);
-
-          enemies.push({
-            id: (updatedIndex + 1),
-            name: enemiesObject[updatedIndex].name,
-            img: enemiesObject[updatedIndex].img,
-          });
+          monsters.push(enemiesObject[updatedIndex]);
         }
       });
     }
 
-    const summary = document.getElementById('summary');
-    summary.innerText = 'Missing ' + enemies.length + ' rare items.';
-
-    if (enemies.length === 0) {
-      enemiesContainer.setAttribute('style', 'display: none;');
-      summary.innerText = 'No rare items missing';
-    }
-
-    return enemiesContainer;
+    return monsters;
   }
 
-  const getItems = (input, startAddr, size) => {
+  const getItems = () => {
+    const size = 180;
+    const startAddr = getOffsetAddr(itemsAddr);
     const weaponsContainer = document.createElement('ul');
-    weaponsContainer.className = 'weapon-container blue-bg';
+    weaponsContainer.className = 'blue-bg hide';
+    weaponsContainer.id = 'weapon-container';
     for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
-      const itemQnt = getDecimal(input, startAddr + itemIndex);
+      const itemQnt = getDecimal(mcard, startAddr + itemIndex);
       if (itemsObject[itemIndex]) {
         const card = renderItemCard(itemsObject, itemIndex, itemQnt, true);
         weaponsContainer.appendChild(card);
@@ -390,10 +475,14 @@
     return weaponsContainer;
   }
 
-  const getOtherItems = (input, startAddr, size) => {
+  const getOtherItems = () => {
+    const startAddr = getOffsetAddr(otherItemsAddr);
+    const size = 32;
+    const input = mcard;
     let potentialGold = 0;
     const itemsContainer = document.createElement('ul');
-    itemsContainer.className = 'item-container blue-bg';
+    itemsContainer.id = 'item-container';
+    itemsContainer.className = 'blue-bg hide';
     for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
       const itemQnt = getDecimal(input, startAddr + itemIndex);
       if (otherItemsObject[itemIndex]) {
@@ -402,52 +491,115 @@
         potentialGold += (itemQnt*otherItemsObject[itemIndex].value);
       }
     }
-
-    const currentGold = getDataSlice(input, getOffsetAddr(currentGoldAddr), 4);
-    const goldSummary = document.getElementById('gold-summary');
-    goldSummary.innerText = `Current Gold: ${currentGold} + ${potentialGold} [sellables items] = ${currentGold+potentialGold}`;
     return itemsContainer;
+  }
+
+  const getPotencialGold = () => {
+    const startAddr = getOffsetAddr(otherItemsAddr);
+    const size = 32;
+    let potentialGold = 0;
+    for (let itemIndex = 0; itemIndex < size; itemIndex ++ ) {
+      const itemQnt = getDecimal(mcard, startAddr + itemIndex);
+      if (otherItemsObject[itemIndex]) {
+        potentialGold += (itemQnt*otherItemsObject[itemIndex].value);
+      }
+    }
+
+    return potentialGold;
+  }
+
+  const getStats = () => {
+    const input = mcard;
+    const statContainer = document.createElement('div');
+    const infoPanel = document.createElement('div');
+    const userName = document.createElement('h4');
+    const level = document.createElement('h4');
+    const time = document.createElement('h4');
+    const percentage = document.createElement('h4');
+    const currentGold = document.createElement('h4');
+    const missingRareDrops = document.createElement('h4');
+    const portrait = document.createElement('img');
+
+    const hours = `0${getDataSlice(getOffsetAddr(hoursAddr), 4)}`.slice(-2);
+    const minutes = `0${getDataSlice(getOffsetAddr(minutesAddr), 4)}`.slice(-2);
+    const seconds = `0${getDataSlice(getOffsetAddr(secondsAddr), 4)}`.slice(-2);
+    const rooms = getDataSlice(getOffsetAddr(roomsAddr), 2);
+    const percent = (rooms*0.10613756613756613).toString().match(/^-?\d+(?:\.\d{0,1})?/)[0]+'%';
+    const gold = getDataSlice(getOffsetAddr(currentGoldAddr), 4);
+    const potentialGold = getPotencialGold();
+    const name = getDataSlice(getOffsetAddr(usernameAddr), 8, 'string').trim();
+    const monsters = getYetToDropMonsters();
+
+    statContainer.id = 'stats-container';
+    infoPanel.className = 'info-panel';
+    missingRareDrops.id = 'missing-drops';
+
+    userName.innerText = `Name: ${name.toUpperCase()}`;
+    currentGold.innerText = `Gold: $ ${gold} (+${potentialGold})`;
+    level.innerText = `Level: ${getDataSlice(getOffsetAddr(levelAddr), 4)}`;
+    time.innerText = `Time: ${hours}:${minutes}:${seconds}`;
+    percentage.innerText = `Rooms: ${rooms} (${percent})`;
+    missingRareDrops.innerText = `Missing Rare items: ${monsters.length}`;
+    portrait.src = name === 'richter' ? `richter_portrait.png` : `alucard_portrait.png`;
+    portrait.alt = name;
+
+    infoPanel.appendChild(userName);
+    infoPanel.appendChild(level);
+    infoPanel.appendChild(time);
+    infoPanel.appendChild(currentGold);
+    infoPanel.appendChild(percentage);
+    infoPanel.appendChild(missingRareDrops);
+    statContainer.appendChild(portrait);
+    statContainer.appendChild(infoPanel);
+    return statContainer;
   }
 
 
   const loadMemoryCard = () => {
-    const rareItemsAddr = getOffsetAddr(dropAddr);
-    const normalItemsAddr = getOffsetAddr(itemsAddr);
-    const otherItemsAddrRef = getOffsetAddr(otherItemsAddr);
+    const output = document.getElementById('output');
+    const resultContainer = document.createElement('div');
+    resultContainer.className = 'container'
+    // const dropStartAddr = extension === 'sav' ? rareItemsAddr - androidOffset : rareItemsAddr;
+
+    // Render result.
+    resultContainer.appendChild(getStats());
+    resultContainer.appendChild(getEnemies());
+    resultContainer.appendChild(getItems());
+    resultContainer.appendChild(getOtherItems());
+    output.removeChild(output.firstChild);
+    output.appendChild(resultContainer);
+    document.getElementById('slot-selector').classList.remove("full-height");
+  }
+
+  loadFile = () => {
+    document.getElementById('tab-selector').classList.remove("hide");
+    document.getElementById('slot-selector').classList.remove("hide");
+    document.getElementById('file-container').classList.add("hide");
+
     const file = document.getElementById('files').files[0];
     if (!file) {
       alert('File not found!');
       return;
     }
     const fileNameArray = file.name.split(".");
-    file.extension = fileNameArray[fileNameArray.length - 1];
+    extension = fileNameArray[fileNameArray.length - 1];
     const reader = new FileReader();
 
-    // Closure to capture the file information.
     reader.onload = (() => (e) => {
-      const mcard = e.target.result;
-      const list = document.getElementById('list');
-      const resultContainer = document.createElement('div');
-      resultContainer.className = 'container'
-      const dropStartAddr = file.extension === 'sav' ? rareItemsAddr - androidOffset : rareItemsAddr;
-      const itemStartAddr = file.extension === 'sav' ? normalItemsAddr - androidOffset : normalItemsAddr;
-      const otherItemStartAddr = file.extension === 'sav' ? otherItemsAddrRef - androidOffset : otherItemsAddrRef;
-
-      console.log(file.extension, dropStartAddr, 'x'+dropStartAddr.toString(16));
-      console.log(file.extension, itemStartAddr, 'x'+itemStartAddr.toString(16));
-      console.log(file.extension, otherItemStartAddr, 'x'+otherItemStartAddr.toString(16));
-
-      // Render result.
-      resultContainer.appendChild(getEnemies(mcard, dropStartAddr));
-      resultContainer.appendChild(getItems(mcard, itemStartAddr, 180));
-      resultContainer.appendChild(getOtherItems(mcard, otherItemStartAddr, 32));
-      list.removeChild(list.firstChild);
-      list.appendChild(resultContainer);
+      mcard = e.target.result;
+      const slotbaseAddr = parseInt("2000", 16);
+      const slotOffset = 8192; // Delta between each memory block save
+      for (let index = 0; index < 15; index++) {
+        const address = slotbaseAddr + (index * slotOffset);
+        const header = getDataSlice(address, 2, 'string').trim();
+        if (header !== 'SC'){
+          disableSlot(index);
+          console.log(address, index);
+        }
+      }
+      loadMemoryCard();
     })(file);
-
     reader.readAsBinaryString(file);
-
   }
-
-  document.getElementById('load').addEventListener('click', loadMemoryCard, false);
+  document.getElementById('files').addEventListener('change', loadFile, false);
 </script>

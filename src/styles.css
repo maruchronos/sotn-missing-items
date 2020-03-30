@@ -4,15 +4,55 @@ body {
   color: #FFF;
 }
 
-output {
-  display: inline;
+#output {
+  overflow: hidden;
+  width: 100%;
 }
 
 #input-container {
   display: flex;
-  flex-direction: column;
   padding: 20px 40px 0;
   margin-bottom: 40px
+}
+
+#file-container {
+  flex: 1;
+}
+
+#slot-list {
+  flex: 1;
+}
+
+#slot-selector {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#slot-selector button{
+  margin-top: 0;
+}
+
+#slot-selector button.active, #tab-selector button.active {
+  background-color: #28a745;
+  border: 2px solid #1e7e34;
+}
+
+#slot-selector h5{
+  margin-bottom: 0;
+  margin-right: 20px;
+}
+
+#load {
+  margin-left: 20px;
+}
+
+.info-panel {
+  width: 100%;
+  background: #000000a3;
+  padding: 20px;
 }
 
 li {
@@ -28,10 +68,21 @@ li span {
   margin-left: 20px;
 }
 
-.monster {
+.monster-card {
   display: flex;
   flex-direction: column;
 }
+
+.monster-info {
+  align-self: flex-start;
+}
+
+.monster {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 
 .monster-id {
   color: #f7ff00
@@ -60,11 +111,18 @@ ul {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
-button {
+button{
   margin-top: 10px;
+  cursor: pointer;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-.item-container {
+button:focus {
+  box-shadow: none;
+}
+
+#item-container {
   border: 2px solid white;
   padding: 0 20px;
 }
@@ -81,15 +139,13 @@ button {
   align-items: center;
 }
 
-.weapon-container, .enemy-container {
+#weapon-container, #enemy-container {
   padding: 0 20px;
-  height: 300px;
-  overflow-y: scroll;
   border: 2px solid white;
   margin-bottom: -2px;
 }
 
-.weapon-container li, .enemy-container li {
+#weapon-container li, #enemy-container li {
   width: auto;
   border-radius: 0;
   margin-right: 20px;
@@ -99,12 +155,12 @@ button {
   margin-left: 5px;
 }
 
-.enemy-container {
+#enemy-container {
   background: #000;
   padding: 20px;
 }
 
-.enemy-container li {
+#enemy-container li {
   border: 2px solid white;
   border-radius: 10px;
   margin: 5px;
@@ -120,4 +176,24 @@ button {
   background-image: url(weapons.png);
   background-repeat: no-repeat;
   transform: scale(1.4);
+}
+
+#stats-container {
+  display: flex;
+  border: 2px solid white;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: url(bg_main_screen.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hide {
+  display: none !important;
+}
+
+.full-height {
+  padding: 0px 40px;
+  margin: 0;
+  height: 100vh;
 }
